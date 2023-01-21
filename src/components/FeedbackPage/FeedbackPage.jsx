@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import css from './FeedbackPage.module.scss';
 import Statistics from 'components/Statistics/Statistics';
-import Buttons from 'components/Buttons/Buttons';
 
 
 class FeedbackPage extends Component {
@@ -41,8 +40,12 @@ class FeedbackPage extends Component {
 
         return (
     <div className={css.wrapper}>
-        <Buttons options={} onLeaveFeedback={onLeaveFeedback}/>
-        
+        <div className={css.buttons}>
+                <h2 className={css.title}>Please leave feedback</h2>
+              <button onClick={() => this.onLeaveFeedback('good')}>Good</button>
+              <button onClick={() => this.onLeaveFeedback('neutral')}>Neutral</button>
+              <button onClick={() => this.onLeaveFeedback('bad')}>Bad</button>
+        </div>
         <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage}/>
     </div>
         )
