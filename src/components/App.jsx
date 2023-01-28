@@ -1,5 +1,6 @@
 import './App.css';
 import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget'; 
+import Notification from './Notification/Notification';
 import { Component } from 'react';
 
 export class App extends Component {
@@ -54,6 +55,7 @@ export class App extends Component {
           stateData={this.state}
           onChangeStatistic={this.handleStatisticChange}
         />
+        <Notification message="There is no feedback" />
       </>
     );
   }
