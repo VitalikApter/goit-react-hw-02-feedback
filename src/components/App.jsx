@@ -1,4 +1,4 @@
-
+import './App.css';
 import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget'; 
 import { Component } from 'react';
 
