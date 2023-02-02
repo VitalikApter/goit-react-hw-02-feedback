@@ -1,44 +1,31 @@
-import './App.css';
-import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget'; 
-import Notification from './Notification/Notification';
 import { Component } from 'react';
+
+import { FeedbackWidget } from './FeedbackWidget/FeedbackWidget';
+// import Notification from './Notification/Notification';
+
+import './App.css';
 
 export class App extends Component {
   state = {
-    good: { name: 'Good', value: 0 },
-    neutral: { name: 'Neutral', value: 0 },
-    bad: { name: 'Bad', value: 0 },
-    total: { name: 'Total', value: 0 },
-    positivePercentage: { name: 'Positive feedback', value: '0%' },
+    good: 0,
+    neutral: 0,
+    bad: 0,
   };
 
-  countPositiveFeedbackPercentage = () => {
-    this.setState(
-      ({
-        good: { value: goodValue },
-        total: { value: totalValue },
-        positivePercentage,
-      }) => ({
-        positivePercentage: {
-          ...positivePercentage,
-          value: Math.round((goodValue * 100) / totalValue.toFixed(5)) + '%',
-        },
-      })
-    );
-  };
+  countPositiveFeedbackPercentage(propname) {
+    const total = this.countTotalFeedback();
+    if (!total) {
+      return 0;
+    }
+    const value = this.state[propname];
+    const result = ((value / total) * 100).toFixed(2);
+    return Number(result);
+  }
 
-  countTotalFeedback = () => {
-    this.setState(
-      ({
-        good: { value: goodValue },
-        neutral: { value: neutralValue },
-        bad: { value: badValue },
-        total,
-      }) => ({
-        total: { ...total, value: goodValue + neutralValue + badValue },
-      })
-    );
-    this.countPositiveFeedbackPercentage();
+  countTotalFeedback()  {
+    const { good, neutral, bad } = this.state;
+    const total = good + neutral + bad;
+    return total;
   };
 
   handleStatisticChange = evt => {
@@ -55,7 +42,7 @@ export class App extends Component {
           stateData={this.state}
           onChangeStatistic={this.handleStatisticChange}
         />
-        <Notification message="There is no feedback" />
+        {/* <Notification message="There is no feedback" /> */}
       </>
     );
   }

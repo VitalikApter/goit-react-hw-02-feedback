@@ -13,9 +13,11 @@ export const FeedbackWidget = props => {
       <Section title={'Please leave feedback'}>
         <FeedbackOptions options={rest} onLeaveFeedback={onChangeStatistic} />
       </Section>
-      {!!total.value&&<Section title={'Statistic'}>
-        <Statistics statistics={stateData} />
-      </Section>}
+      {!!total.value && (
+        <Section title={'Statistic'}>
+          <Statistics statistics={stateData} />
+        </Section>
+      )}
     </div>
   );
 };

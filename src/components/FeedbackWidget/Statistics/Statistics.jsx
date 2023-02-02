@@ -2,7 +2,7 @@ import css from './Statistics.module.scss';
 import PropTypes from 'prop-types';
 
 export const Statistics = ({ statistics }) => {
-    const items = Object.values(statistics);
+  const items = Object.values(statistics);
   return (
     <>
       <ul className={css['list-zeroing']}>
@@ -18,8 +18,6 @@ export const Statistics = ({ statistics }) => {
   );
 };
 
-
 Statistics.propTypes = {
-  statistics:PropTypes.shape({
-  })
-}
+  statistics: PropTypes.shape({}),
+};
