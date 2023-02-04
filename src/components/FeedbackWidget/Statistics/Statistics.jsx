@@ -1,23 +1,16 @@
-import css from './Statistics.module.scss';
-import PropTypes from 'prop-types';
 
-export const Statistics = ({ statistics }) => {
-  const items = Object.values(statistics);
+
+const Statistics = ({good, neutral, bad, total, positivePercentage}) => {
   return (
     <>
-      <ul className={css['list-zeroing']}>
-        {items.map(({ name, value }) => (
-          <li key={name}>
-            <p>
-              {name}: {value}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </>
+      
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>Total: {total}</p>
+      <p>Positive feedback: {positivePercentage} %</p>
+      </>
   );
 };
 
-Statistics.propTypes = {
-  statistics: PropTypes.shape({}),
-};
+export default Statistics;

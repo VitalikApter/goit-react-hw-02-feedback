@@ -1,48 +1,72 @@
-import css from './FeedbackWidget.module.scss';
-import { Statistics } from './Statistics/Statistics';
-import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Component } from 'react';
+import Statistics from './Statistics/Statistics';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import { Section } from 'components/Section/Section';
-import PropTypes from 'prop-types';
+import Notification from 'components/Notification/Notification';
 
-export const FeedbackWidget = props => {
-  const { stateData, onChangeStatistic } = props;
-  const { total, positivePercentage, ...rest } = stateData;
+import css from './FeedbackWidget.module.scss';
 
-  return (
-    <div className={css.feedbackWidget}>
-      <Section title={'Please leave feedback'}>
-        <FeedbackOptions options={rest} onLeaveFeedback={onChangeStatistic} />
-      </Section>
-      {!!total.value && (
-        <Section title={'Statistic'}>
-          <Statistics statistics={stateData} />
-        </Section>
-      )}
-    </div>
-  );
-};
+class FeedbackWidget extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
 
-FeedbackWidget.propTypes = {
-  props: PropTypes.shape({
-    good: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-    }),
-    neutral: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-    }),
-    bad: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-    }),
-    total: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
-    }),
-    positivePercentage: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    }),
-  }),
-};
+  statePropNames = Object.keys(this.state);
+
+  onLeaveFeedback = propName => {
+    this.setState(prevState => {
+      return { [propName]: prevState[propName] + 1 };
+    });
+  };
+
+  countTotalFeedback() {
+    const { good, neutral, bad } = this.state;
+    const total = good + neutral + bad;
+    return total;
+  }
+
+  countPositiveFeedbackPercentage(propName) {
+    const total = this.countTotalFeedback();
+    if (!total) {
+      return 0;
+    }
+    const value = this.state[propName];
+    const result = ((value / total) * 100).toFixed(2);
+    return Number(result);
+  }
+
+  render() {
+    const { good, neutral, bad } = this.state;
+    const total = this.countTotalFeedback();
+    const positivePercentage = this.countPositiveFeedbackPercentage('good');
+
+    return (
+      <>
+        
+          
+          
+          <Section className={css.wrapper} title={'Please leave feedback'}>
+            <FeedbackOptions
+              options={this.statePropNames}
+              onLeaveFeedback={this.onLeaveFeedback}
+            />
+          </Section>
+        
+        {!!total ? <Section className={css.wrapper} title={'Statistics'}  >
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={total}
+          positivePercentage={positivePercentage}
+        />
+        </Section> : <Notification  message="There is no feedback"/>}
+        
+      </>
+    );
+  }
+}
+
+export default FeedbackWidget;

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 
-const Notification = ({ message }) => <p>{message}</p>;
+import css from '../FeedbackWidget/FeedbackWidget.module.scss';
+
+const Notification = ({ message }) => <p className={css.notification}>{message}</p>;
 
 export default Notification;
 
