@@ -33,7 +33,7 @@ class FeedbackWidget extends Component {
       return 0;
     }
     const value = this.state[propName];
-    const result = ((value / total) * 100).toFixed(2);
+    const result = Math.round((value * 100) / total);
     return Number(result);
   }
 
@@ -44,26 +44,26 @@ class FeedbackWidget extends Component {
 
     return (
       <>
-        
-          
-          
-          <Section className={css.wrapper} title={'Please leave feedback'}>
-            <FeedbackOptions
-              options={this.statePropNames}
-              onLeaveFeedback={this.onLeaveFeedback}
+        <Section className={css.wrapper} title={'Please leave feedback'}>
+          <FeedbackOptions
+            options={this.statePropNames}
+            onLeaveFeedback={this.onLeaveFeedback}
+          />
+        </Section>
+
+        {!!total ? (
+          <Section className={css.wrapper} title={'Statistics'}>
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              positivePercentage={positivePercentage}
             />
           </Section>
-        
-        {!!total ? <Section className={css.wrapper} title={'Statistics'}  >
-        <Statistics
-          good={good}
-          neutral={neutral}
-          bad={bad}
-          total={total}
-          positivePercentage={positivePercentage}
-        />
-        </Section> : <Notification  message="There is no feedback"/>}
-        
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
       </>
     );
   }
